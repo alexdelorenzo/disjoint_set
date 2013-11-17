@@ -25,18 +25,6 @@ def process_row(input):
 		return nodes
 
 
-#def get_neighbors(pt, nodes, include_self=True, interval=[(x,y) for x in xrange(-1,2) for y in xrange(-1,2)]):
-#	neighbors = set()
-#	x1, y1 = pt
-#	for x2, y2 in nodes:
-#		x_diff, y_diff = x1 - x2, y1 - y2
-#		if -1 <= x_diff <= 1 and -1 <= y_diff <= 1:
-#			neighbors.add((x2,y2))
-#	#neighbors.remove(pt)
-#	#neighbors = [(x1 + x2, y1 + y2) for y1, y2 in interval]
-#
-#	return neighbors
-
 def get_neighbors(pt, nodes, i=[(x,y) for x in xrange(-1,2) for y in xrange(-1,2)]):
 	x1, y1 = pt
 	neighbors =  (  (x1 + x2, y1 + y2) for x2, y2 in i  )
