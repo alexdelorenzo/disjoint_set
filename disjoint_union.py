@@ -9,7 +9,7 @@ class DisjointUnion(list):
 	def find(self, item):
 		for index, pool in enumerate(self):
 			if item in pool:
-				return {index}
+				return index
 
 		return None
 
@@ -23,14 +23,14 @@ class DisjointUnion(list):
 		if both_equal and both_present:
 			pass
 
-		elif both_present:
-			sml, lrg = sorted((xroot.pop(), yroot.pop()))
+		elif both_present >= 0:
+			sml, lrg = sorted((xroot, yroot))
 
 			self[sml] |= self[lrg]
 			self.pop(lrg)
 
 		elif one_present:
-			index = one_present.pop()
+			index = one_present
 			new_value = y if x in self[index] else x
 			self[index].add(new_value)
 
