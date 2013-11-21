@@ -3,18 +3,16 @@ __author__ = 'alex'
 
 class DisjointUnion(list):
 	def __init__(self, initial={}):
-		self.sets = self
 		if initial:
 			self.append(initial)
 
 	def find(self, item):
-		for index, pool in enumerate(self.sets):
+		for index, pool in enumerate(self):
 			if item in pool:
 				return {index}
 
-		return False
+		return None
 
-		#return {index for index, pool in enumerate(self.sets) if item in pool}
 
 	def union(self, x, y):
 		xroot, yroot = self.find(x), self.find(y)
@@ -28,16 +26,16 @@ class DisjointUnion(list):
 		elif both_present:
 			sml, lrg = sorted((xroot.pop(), yroot.pop()))
 
-			self.sets[sml] |= self.sets[lrg]
-			self.sets.pop(lrg)
+			self[sml] |= self[lrg]
+			self.pop(lrg)
 
 		elif one_present:
 			index = one_present.pop()
 			new_value = y if x in self[index] else x
-			self.sets[index].add(new_value)
+			self[index].add(new_value)
 
 		else:
-			self.sets.append({x, y})
+			self.append({x, y})
 
 		return self
 
@@ -46,7 +44,6 @@ class DisjointUnion(list):
 		length = len(set_or_list)
 		if length == 1:
 				self.append({item for item in set_or_list})
-				return self
 		elif length > 1:
 			initial = set_or_list.pop()
 			for item in set_or_list:
@@ -55,13 +52,13 @@ class DisjointUnion(list):
 		return self
 
 
-
-
-
-
-
 def main():
-	pass
+	a, b, c, d = {1,2,3}, {4,5,6,7,8,9}, {'a', 'b', 3}, None
+	s = DisjointUnion(a).unions(b).unions(c).union(d, 0)
+	print(s)
+	s.unions({0, 1, 4})
+	print(s)
+
 
 
 if __name__ == "__main__":
