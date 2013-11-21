@@ -26,7 +26,8 @@ def process_row(input):
 		return nodes
 
 
-def get_neighbors(pt, nodes, i=[(x,y) for x in xrange(-1,2) for y in xrange(-1,2)]):
+def get_neighbors(pt, nodes):
+	i = [(x,y) for x in xrange(-1,2) for y in xrange(-1,2)]
 	x1, y1 = pt
 	neighbors =  (  (x1 + x2, y1 + y2) for x2, y2 in i  )
 	return {neighbor for neighbor in neighbors if neighbor in nodes}
@@ -36,57 +37,11 @@ def determine_neighborhood(true_pts):
 	return {pt: get_neighbors(pt, true_pts) for pt in true_pts}
 
 
-
-def two_pass(intersections):
-	pools = []
-	pts = intersections.keys()
-	index = 0
-	cpy = dc(intersections)
-	for pt, neighbors in intersections.iteritems():
-		print index, pt, neighbors
-		if not pools.keys():
-			pools[index] = neighbors
-		elif pt in pools[index-1]:
-			pools[index-1] |= neighbors
-			index -= 1
-		else:
-			pools[index] = neighbors
-		index += 1
-	slice_at = 0
-	dic_copy = dc(pools)
-	for pt, neighbors in cpy.iteritems():
-		if len(neighbors) < 1:
-			continue
-		keys = pools.keys()
-		index = keys[0]
-		while index <= max(keys):
-			pool = pools[index]
-			if pt in pool:
-				if index >= len(pools) - 1:
-					break
-				print len(pools) - 1, index, slice_at, pools
-				pools[index] |= neighbors
-				slice_at = index if index > slice_at else slice_at
-				for index2, pool2 in pools.items():
-					if index2 <= slice_at:
-						continue
-					if pt in pool2:
-						pools[slice_at] |= pools.pop(index2)
-						keys.pop(keys.index(index2))
-			if index >= keys[-1]:
-				break
-			keys = pools.keys()
-			index = keys[keys.index(index) + 1]
-
-	return pools
-
 def disjoint_sets(intersections):
 	disjoint_union = du()
 
 	for key, vals in intersections.iteritems():
 		disjoint_union.unions(vals)
-#		for val in vals:
-#			disjoint_union.union(key, val)
 	return disjoint_union
 
 def rtn_example(size=8):
