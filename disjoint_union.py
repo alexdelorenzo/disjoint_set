@@ -2,8 +2,8 @@ __author__ = 'alex'
 
 
 class DisjointUnion(list):
-	def __init__(self, initial={}):
-		if initial:
+	def __init__(self, initial=None):
+		if initial is not None:
 			self.append(initial)
 
 	def find(self, item):
