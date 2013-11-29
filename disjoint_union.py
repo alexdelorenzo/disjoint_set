@@ -47,7 +47,7 @@ class DisjointUnion(list):
 	def unions(self, set_or_list):
 		length = len(set_or_list)
 		if length == 1:
-				self.append(set_or_list.pop())
+				self.append(set(set_or_list))
 		elif length > 1:
 			initial = set_or_list.pop()
 			for item in set_or_list:
