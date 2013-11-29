@@ -4,7 +4,7 @@ __author__ = 'alex'
 class DisjointUnion(list):
 	def __init__(self, initial=None):
 		if initial is not None:
-			self.append(initial)
+			self.unions(initial)
 
 	def find(self, item):
 		for index, pool in enumerate(self):
