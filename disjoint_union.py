@@ -4,7 +4,32 @@ __author__ = 'alex'
 class DisjointUnion(list):
 	def __init__(self, initial={}):
 		if initial:
-			self.append(initial)
+			self |= initial
+
+	def __or__(self, other):
+		try:
+			iterable = set(other)
+
+		except TypeError:
+			return self.union(other, other)
+
+		return self.unions(iterable)
+
+	def __ror__(self, other):
+		return self.__or__(other)
+
+	def __add__(self, other):
+		return self.__or__(other)
+
+	def __radd__(self, other):
+		return self.__add__(other)
+
+	def __ior__(self, other):
+		return self.__or__(other)
+
+	def __iadd__(self, other):
+		return self.__add__(other)
+
 
 	def find(self, item):
 		for index, pool in enumerate(self):
@@ -45,11 +70,21 @@ class DisjointUnion(list):
 
 
 	def unions(self, set_or_list):
+		try:
+			set_or_list = set(set_or_list)
+
+		except TypeError as t_e:
+			self.union(set_or_list, set_or_list)
+			return self
+
 		length = len(set_or_list)
+
 		if length == 1:
-				self.append(set_or_list.pop())
+				self.append(set_or_list)
+
 		elif length > 1:
 			initial = set_or_list.pop()
+
 			for item in set_or_list:
 				self.union(initial, item)
 
@@ -58,11 +93,21 @@ class DisjointUnion(list):
 
 def main():
 	a, b, c, d = {1,2,3}, {4,5,6,7,8,9}, {'a', 'b', 0}, None
+
 	s = DisjointUnion(a).unions(b).unions(c).union(d, d)
 	print(s)
+
 	s.unions({0, 1, 4})
 	print(s)
 
+	x, y, z = ValueError, 'lol if youre reading this', {x for x in range(90, 80, -1)}
+
+	s += x
+	s |= {'four', 'score'}
+	print(s)
+
+	('!@#$' + (s + x) + y) | ( {22,44} | z)
+	print(s)
 
 
 if __name__ == "__main__":
