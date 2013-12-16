@@ -6,35 +6,51 @@ union find / disjoint union set
 usage
 ===========
 ```python
-In [2]: import disjoint_union as du
+In [1]: from disjoint_union import DisjointUnion
 
-In [3]: du.DisjointUnion()
-Out[3]: []
+In [2]: a, b, c, d = {1,2,3}, {4,5,6,7,8,9}, {'a', 'b', 0}, None
 
+In [3]: 
 
-In [7]: disjoint_set1, disjoint_set2 = du.DisjointUnion(), du.DisjointUnion({x for x in range(5,10)})
+In [3]: s = DisjointUnion(a).unions(b).unions(c).union(d, d)
 
+In [4]: print(s)
+[{1, 2, 3}, {4, 5, 6, 7, 8, 9}, {0, 'a', 'b'}, {None}]
 
-In [9]: disjoint_set2
-Out[9]: [set([8, 9, 5, 6, 7])]
+In [5]: 
 
-In [10]: a, b, c, d = {1,2,3}, {4,5,6,7,8,9}, {'a', 'b', 0}, None
+In [5]: s.unions({0, 1, 4})
+Out[5]: [set([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'a', 'b']), set([None])]
 
-In [11]: disjoint_set1.unions(a).unions(c)
-Out[11]: [set([1, 2, 3]), set(['b', 0, 'a'])]
+In [6]: print(s)
+[{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'a', 'b'}, {None}]
 
-In [12]: disjoint_set1.union(d, d)
-Out[12]: [set([1, 2, 3]), set(['b', 0, 'a']), set([None])]
+In [7]: 
 
-In [13]: disjoint_set1.union(1, 'a')
-Out[13]: [set([0, 1, 2, 3, 'b', 'a']), set([None])]
+In [7]: x, y, z = ValueError, 'lol if youre reading this', {x for x in range(90, 80, -1)}
 
-In [14]: disjoint_set1.unions([x for x in range(10)])
-Out[14]: [set([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'b', 'a']), set([None])]
+In [8]: 
+
+In [8]: s += x
+
+In [9]: s |= {'four', 'score'}
+
+In [10]: print(s)
+[{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'a', 'b'}, {None}, {<class 'ValueError'>}, {'four', 'score'}]
+
+In [11]: 
+
+In [11]: ('!@#$' + (s + x) + y) | ( {22,44} | z)
+Out[11]: 
+[set([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'y', 'd', 'e', 'f', 'g', ' ', 'a', 'b', 'l', 't', 'n', 'o', 'h', 'i', 'r', 's', 'u']),
+ set([None]),
+ set([builtins.ValueError]),
+ set(['four', 'score']),
+ set(['$', '@', '!', '#']),
+ set([22, 44, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90])]
+
+In [12]: print(s)
+[{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'y', 'd', 'e', 'f', 'g', ' ', 'a', 'b', 'l', 't', 'n', 'o', 'h', 'i', 'r', 's', 'u'}, {None}, {<class 'ValueError'>}, {'four', 'score'}, {'$', '@', '!', '#'}, {22, 44, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90}]
+[14]: [set([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'b', 'a']), set([None])]
 ```
 
-
-
-About
-============
-has nothing to do with the library but why it came about: made counting connected groups easier. unfortunately, i was pretty inefficient in processing a adjancey list from an adjacency grid. now i have homework to finish.
