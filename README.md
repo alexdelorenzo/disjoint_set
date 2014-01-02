@@ -10,14 +10,10 @@ In [1]: from disjoint_union import DisjointUnion
 
 In [2]: a, b, c, d = {1,2,3}, {4,5,6,7,8,9}, {'a', 'b', 0}, None
 
-In [3]: 
-
 In [3]: s = DisjointUnion(a).unions(b).unions(c).union(d, d)
 
 In [4]: print(s)
 [{1, 2, 3}, {4, 5, 6, 7, 8, 9}, {0, 'a', 'b'}, {None}]
-
-In [5]: 
 
 In [5]: s.unions({0, 1, 4})
 Out[5]: [set([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'a', 'b']), set([None])]
@@ -25,11 +21,7 @@ Out[5]: [set([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'a', 'b']), set([None])]
 In [6]: print(s)
 [{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'a', 'b'}, {None}]
 
-In [7]: 
-
 In [7]: x, y, z = ValueError, 'lol if youre reading this', {x for x in range(90, 80, -1)}
-
-In [8]: 
 
 In [8]: s += x
 
@@ -38,7 +30,6 @@ In [9]: s |= {'four', 'score'}
 In [10]: print(s)
 [{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'a', 'b'}, {None}, {<class 'ValueError'>}, {'four', 'score'}]
 
-In [11]: 
 
 In [11]: ('!@#$' + (s + x) + y) | ( {22,44} | z)
 Out[11]: 
