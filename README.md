@@ -8,40 +8,64 @@ usage
 ```python
 In [1]: from disjoint_union import DisjointUnion
 
-In [2]: a, b, c, d = {1,2,3}, {4,5,6,7,8,9}, {'a', 'b', 0}, None
+In [2]: a, b, c, d, e, f, g = {1,2,3}, {4,5,6}, {'a', 'b', 0}, None, ValueError(), (object, str), str
 
-In [3]: s = DisjointUnion(a).unions(b).unions(c).union(d, d)
+In [3]: s = DisjointUnion(a)
 
-In [4]: print(s)
-[{1, 2, 3}, {4, 5, 6, 7, 8, 9}, {0, 'a', 'b'}, {None}]
+In [4]: s
+Out[4]: [{1, 2, 3}]
 
-In [5]: s.unions({0, 1, 4})
-Out[5]: [set([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'a', 'b']), set([None])]
+In [5]: s.unions(b).unions(c).union(d, d)
+Out[5]: [{1, 2, 3}, {4, 5, 6}, {'b', 0, 'a'}, {None}]
 
-In [6]: print(s)
-[{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'a', 'b'}, {None}]
+In [6]: s.unions('test', 22, 55, 99)
+Out[6]: [{1, 2, 3}, {4, 5, 6}, {'b', 0, 'a'}, {None}, {99, 'test', 22, 55}]
 
-In [7]: x, y, z = ValueError, 'lol if youre reading this', {x for x in range(90, 80, -1)}
+In [7]: s.union(22, 77)
+Out[7]: [{1, 2, 3}, {4, 5, 6}, {'b', 0, 'a'}, {None}, {99, 'test', 77, 22, 55}]
 
-In [8]: s += x
+In [8]: s + 66
+Out[8]: [{1, 2, 3}, {4, 5, 6}, {'b', 0, 'a'}, {None}, {99, 'test', 77, 22, 55}, {66}]
 
-In [9]: s |= {'four', 'score'}
+In [9]: s.union(66, 22)
+Out[9]: [{1, 2, 3}, {4, 5, 6}, {'b', 0, 'a'}, {None}, {22, 55, 66, 77, 99, 'test'}]
 
-In [10]: print(s)
-[{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'a', 'b'}, {None}, {<class 'ValueError'>}, {'four', 'score'}]
+In [11]: s |= f
 
+In [12]: s
+Out[12]:
+[{1, 2, 3},
+ {4, 5, 6},
+ {'b', 0, 'a'},
+ {None},
+ {22, 55, 66, 77, 99, 'test'},
+ {builtins.object, builtins.str}]
 
-In [11]: ('!@#$' + (s + x) + y) | ( {22,44} | z)
-Out[11]: 
-[set([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'y', 'd', 'e', 'f', 'g', ' ', 'a', 'b', 'l', 't', 'n', 'o', 'h', 'i', 'r', 's', 'u']),
- set([None]),
- set([builtins.ValueError]),
- set(['four', 'score']),
- set(['$', '@', '!', '#']),
- set([22, 44, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90])]
+In [13]: ('!@#$' + (s + g) + 'hey there') | ( {22,44} | set('char set'))
+Out[13]:
+[{1, 2, 3},
+ {4, 5, 6},
+ {'b',
+  0,
+  ' ',
+  'a',
+  't',
+  'c',
+  'h',
+  'e',
+  44,
+  66,
+  77,
+  'r',
+  's',
+  99,
+  22,
+  55,
+  'test'},
+ {None},
+ {builtins.object, builtins.str},
+ {'!@#$'},
+ {'hey there'}]
 
-In [12]: print(s)
-[{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'y', 'd', 'e', 'f', 'g', ' ', 'a', 'b', 'l', 't', 'n', 'o', 'h', 'i', 'r', 's', 'u'}, {None}, {<class 'ValueError'>}, {'four', 'score'}, {'$', '@', '!', '#'}, {22, 44, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90}]
-[14]: [set([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'b', 'a']), set([None])]
 ```
 
