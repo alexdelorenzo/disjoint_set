@@ -61,12 +61,14 @@ class DisjointUnion(list):
         return self
 
     def union_iterable(self, iterable):
+        if isinstance(iterable, str):
+            return self.union(iterable, iterable)
+
         try:
             iterable = set(iterable)
 
         except TypeError as t_e:
-            self.union(iterable, iterable)
-            return self
+            return self.union(iterable, iterable)
 
         length = len(iterable)
 
@@ -82,10 +84,10 @@ class DisjointUnion(list):
         return self
 
     def unions(self, *many_items):
-        if len(many_items) == 1:
+        if len(many_items) is 1:
             many_items = many_items[0]
 
-        return self.union_iterable(set(many_items))
+        return self.union_iterable(many_items)
 
 
 def main():
