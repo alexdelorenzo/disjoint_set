@@ -43,29 +43,11 @@ Out[12]:
 
 In [13]: ('!@#$' + (s + g) + 'hey there') | ( {22,44} | set('char set'))
 Out[13]:
-[{1, 2, 3},
- {4, 5, 6},
- {'b',
-  0,
-  ' ',
-  'a',
-  't',
-  'c',
-  'h',
-  'e',
-  44,
-  66,
-  77,
-  'r',
-  's',
-  99,
-  22,
-  55,
-  'test'},
- {None},
- {builtins.object, builtins.str},
- {'!@#$'},
- {'hey there'}]
+[{1, 2, 3}, {4, 5, 6}, {0, 66, 99, 'h', 77, 'e', 'a', 'test', 44, ' ', 'c', 'b', 22, 55, 't', 's', 'r'}, {None}, {<class 'object'>, <class 'str'>}, {'!@#$'}, {'hey there'}]
+
+ In [14]: s.unions(1, 4, 22, None, 's', str)
+Out[14]:
+[{'b', 1, 2, 3, 4, 5, 6, 'c', ' ', 'h', None, 77, 'r', 's', 'a', 66, 't', 'test', 22, 0, 99, <class 'object'>, 'e', 44, <class 'str'>, 55}, {'!@#$'}, {'hey there'}]
 
 ```
 
