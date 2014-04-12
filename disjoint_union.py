@@ -3,6 +3,7 @@ from collections import Iterable, Sequence
 
 class DisjointUnion(list):
     def __init__(self, initial={}):
+        super(DisjointUnion, self).__init__()
         if initial:
             self |= initial
 
@@ -12,14 +13,14 @@ class DisjointUnion(list):
     def __ror__(self, other):
         return self.__or__(other)
 
+    def __ior__(self, other):
+        return self.__or__(other)
+
     def __add__(self, other):
         return self.__or__(other)
 
     def __radd__(self, other):
         return self.__add__(other)
-
-    def __ior__(self, other):
-        return self.__or__(other)
 
     def __iadd__(self, other):
         return self.__add__(other)
