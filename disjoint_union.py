@@ -1,4 +1,4 @@
-__author__ = 'alex'
+from collections import Iterable, Sequence
 
 
 class DisjointUnion(list):
@@ -23,6 +23,20 @@ class DisjointUnion(list):
 
     def __iadd__(self, other):
         return self.__add__(other)
+
+    def _is_hashable(self, item):
+        try:
+            hash(item)
+        except Exception as ex:
+            return False
+
+        return True
+
+    def _is_iter(self, item):
+        iters = Iterable, Sequence
+        is_iter = isinstance(item, iters)
+
+        return is_iter
 
     def find(self, item):
         for index, pool in enumerate(self):
@@ -68,11 +82,14 @@ class DisjointUnion(list):
         if isinstance(iterable, str):
             return self.union(iterable, iterable)
 
-        try:
-            iterable = set(iterable)
+        is_hashable = self._is_hashable(iterable)
+        is_iterable = self._is_iter(iterable)
 
-        except TypeError as t_e:
+        if is_hashable and not is_iterable:
             return self.union(iterable, iterable)
+
+        elif is_iterable:
+            iterable = set(iterable)
 
         length = len(iterable)
         single_item = length is 1
