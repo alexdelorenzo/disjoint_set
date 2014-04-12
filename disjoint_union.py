@@ -32,12 +32,12 @@ class DisjointUnion(list):
         return None
 
     def union(self, x, y):
-        xroot, yroot = self.find(x), self.find(y)
+        x_root, y_root = self.find(x), self.find(y)
 
-        x_present = xroot is not None
-        y_present = yroot is not None
+        x_present = x_root is not None
+        y_present = y_root is not None
 
-        same_root = xroot == yroot
+        same_root = x_root == y_root
         both_present = x_present and y_present
         one_present = x_present or y_present
 
@@ -45,13 +45,17 @@ class DisjointUnion(list):
             pass
 
         elif both_present:
-            sml, lrg = sorted((xroot, yroot))
+            xlen, ylen = len(self[x_root]), len(self[y_root])
+            sml_x = xlen <= ylen
 
-            self[sml] |= self[lrg]
-            self.pop(lrg)
+            sml = x_root if sml_x else y_root
+            lrg = y_root if sml_x else x_root
+
+            self[lrg] |= self[sml]
+            self.pop(sml)
 
         elif one_present:
-            index = xroot if x_present else yroot
+            index = x_root if x_present else y_root
             new_value = y if x in self[index] else x
             self[index].add(new_value)
 
@@ -71,11 +75,13 @@ class DisjointUnion(list):
             return self.union(iterable, iterable)
 
         length = len(iterable)
+        single_item = length is 1
+        many_items = length > 1
 
-        if length == 1:
+        if single_item:
             self.append(iterable)
 
-        elif length > 1:
+        elif many_items:
             initial = iterable.pop()
 
             for item in iterable:
@@ -84,7 +90,9 @@ class DisjointUnion(list):
         return self
 
     def unions(self, *many_items):
-        if len(many_items) is 1:
+        single_item = len(many_items) is 1
+
+        if single_item:
             many_items = many_items[0]
 
         return self.union_iterable(many_items)
@@ -96,7 +104,7 @@ def main():
     s = DisjointUnion(a).unions(b).unions(c).union(d, d)
     print(s)
 
-    s.unions({0, 1, 4})
+    s.unions(0, 1, 4)
     print(s)
 
     x, y, z = ValueError, 'lol if youre reading this', {x for x in range(90, 80, -1)}
