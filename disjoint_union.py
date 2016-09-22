@@ -2,11 +2,15 @@ from collections import Iterable, Sequence
 
 
 class DisjointUnion(list):
-    def __init__(self, initial={}):
+    def __init__(self, initial=None):
         super(DisjointUnion, self).__init__()
-        if initial:
+        
+        if initial is None:
+            self |= set()
+        
+        else:
             self |= initial
-
+        
     def __or__(self, other):
         return self.unions(other)
 
