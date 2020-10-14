@@ -1,6 +1,6 @@
 # Disjoint Union
 
-Implementation of the union find algorithm.
+Implementation of the union find algorithm. This library will work with any hashable objects.
 
 # Installation
 
@@ -11,6 +11,7 @@ python3 -m pip install disjoint_union
 ```
 
 # Usage
+`DisjointUnion` is a subclass of `list` and can be instantiated by passing it an iterable. You can use the pipe methods `|` & `|=` as well as the `union(x, y)` and `unions(*iterable)` methods.
 
 ```python3
 In [1]: from disjoint_union import DisjointUnion                            
