@@ -102,7 +102,7 @@ class DisjointUnion(list):
             iterable = set(iterable)
 
         length = len(iterable)
-        single_item = length is 1
+        single_item = length == 1
         many_items = length > 1
 
         if single_item:
@@ -117,7 +117,7 @@ class DisjointUnion(list):
         return self
 
     def unions(self, *many_items: List[Any]) -> 'DisjointUnion':
-        single_item = len(many_items) is 1
+        single_item = len(many_items) == 1
 
         if single_item:
             many_items = many_items[0]

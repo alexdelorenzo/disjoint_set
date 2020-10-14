@@ -4,7 +4,7 @@ from pathlib import Path
 
 
 NAME = "disjoint_union"
-VERSION = "0.0.2"
+VERSION = "0.0.3"
 LICENSE = "AGPL-3.0"
 
 DESC = "Disjoint set / union find"
@@ -15,7 +15,7 @@ REQUIREMENTS = \
     .split('\n')
 
 README = Path('README.md').read_text()
-
+ex
 setup(
       name=NAME,
       version=VERSION,
