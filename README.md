@@ -1,11 +1,18 @@
-disjoint_set
-============
+# Disjoint Union
 
-union find / disjoint union set
+Implementation of the union find algorithm.
 
-usage
-===========
-```python
+# Installation
+
+## PyPI
+
+```bash
+python3 -m pip install disjoint_union
+```
+
+# Usage
+
+```python3
 In [1]: from disjoint_union import DisjointUnion
 
 In [2]: a, b, c, d, e, f, g = {1,2,3}, {4,5,6}, {'a', 'b', 0}, None, ValueError(), (object, str), str
