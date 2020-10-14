@@ -15,7 +15,7 @@ REQUIREMENTS = \
     .split('\n')
 
 README = Path('README.md').read_text()
-ex
+
 setup(
       name=NAME,
       version=VERSION,
