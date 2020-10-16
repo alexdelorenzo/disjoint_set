@@ -15,6 +15,9 @@ class DisjointUnion(list):
         else:
             self |= initial
 
+    def __contains__(self, key: Hashable) -> bool:
+        return self.find(key) is not None
+
     def __or__(self, other: Iterable) -> 'DisjointUnion':
         return self.unions(other)
 
