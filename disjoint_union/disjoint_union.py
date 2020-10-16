@@ -125,7 +125,7 @@ class DisjointUnion(list):
 
         return self
 
-    def unions(self, *many_items: List[Any]) -> 'DisjointUnion':
+    def unions(self, *many_items: List[Hashable]) -> 'DisjointUnion':
         single_item = len(many_items) == 1
 
         if single_item:
