@@ -97,30 +97,30 @@ class DisjointUnion(list):
 
         return self
 
-    def union_iterable(self, iterable: Iterable) -> 'DisjointUnion':
-        if isinstance(iterable, str):
-            return self.union(iterable, iterable)
+    def union_iterable(self, items: Iterable) -> 'DisjointUnion':
+        if isinstance(items, str):
+            return self.union(items, items)
 
-        is_hashable = self._is_hashable(iterable)
-        is_iterable = self._is_iter(iterable)
+        is_hashable = self._is_hashable(items)
+        is_iterable = self._is_iter(items)
 
         if is_hashable and not is_iterable:
-            return self.union(iterable, iterable)
+            return self.union(items, items)
 
         elif is_iterable:
-            iterable = set(iterable)
+            items = set(items)
 
-        length = len(iterable)
+        length = len(items)
         single_item = length == 1
         # many_items = length > 1
 
         if single_item:
-            self.append(iterable)
+            self.append(items)
 
         elif length > 1:
-            initial = iterable.pop()
+            initial = items.pop()
 
-            for item in iterable:
+            for item in items:
                 self.union(initial, item)
 
         return self
