@@ -50,7 +50,7 @@ class DisjointUnion(list):
     def get_set(self, item: Hashable) -> Optional[Set]:
         index = self.find(item)
 
-        if item is not None:
+        if index is not None:
             return self[index]
 
         return None  # be explicit
