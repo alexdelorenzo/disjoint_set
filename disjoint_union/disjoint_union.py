@@ -72,7 +72,7 @@ class DisjointUnion(list):
 
         same_root = x_root == y_root
         both_present = x_present and y_present
-        #one_present = x_present or y_present
+        # one_present = x_present or y_present
 
         if same_root and both_present:
             pass
@@ -112,7 +112,7 @@ class DisjointUnion(list):
 
         length = len(iterable)
         single_item = length == 1
-        #many_items = length > 1
+        # many_items = length > 1
 
         if single_item:
             self.append(iterable)
