@@ -4,7 +4,7 @@ from pathlib import Path
 
 
 NAME = "disjoint_union"
-VERSION = "0.0.3"
+VERSION = "0.1.0"
 LICENSE = "AGPL-3.0"
 
 DESC = "Disjoint set / union find"

@@ -1,4 +1,4 @@
-from typing import Optional, Union, Any, List
+from typing import Optional, Union, Any, List, Hashable, Set
 from collections import Iterable, Sequence
 
 
@@ -34,26 +34,35 @@ class DisjointUnion(list):
         return self.__add__(other)
 
     def _is_hashable(self, item: Any) -> bool:
-        try:
-            hash(item)
+        return isinstance(item, Hashable)
 
-        except Exception as e:
-            return False
-
-        return True
-
-    def _is_iter(self, item: Any) -> bool:
+    def _is_iter(self, item: Hashable) -> bool:
         iters = Iterables.__args__
-        is_iter = isinstance(item, iters)
+        return isinstance(item, iters)
 
-        return is_iter
-
-    def find(self, item: Any) -> Optional[int]:
+    def find(self, item: Hashable) -> Optional[int]:
         for index, pool in enumerate(self):
             if item in pool:
                 return index
 
-        return None
+        return None  # be explicit
+
+    def get_set(self, item: Hashable) -> Optional[Set]:
+        index = self.find(item)
+
+        if item is not None:
+            return self[index]
+
+        return None  # be explicit
+
+    def remove(self, item: Hashable) -> bool:
+        pool = self.get_set(item)
+
+        if pool is not None:
+            pool.remove(item)
+            return True
+
+        return False
 
     def union(self, x: Any, y: Any) -> 'DisjointUnion':
         x_root, y_root = self.find(x), self.find(y)
@@ -63,7 +72,7 @@ class DisjointUnion(list):
 
         same_root = x_root == y_root
         both_present = x_present and y_present
-        one_present = x_present or y_present
+        #one_present = x_present or y_present
 
         if same_root and both_present:
             pass
@@ -78,7 +87,7 @@ class DisjointUnion(list):
             self[lrg] |= self[sml]
             self.pop(sml)
 
-        elif one_present:
+        elif x_present or y_present:
             index = x_root if x_present else y_root
             new_value = y if x in self[index] else x
             self[index].add(new_value)
@@ -103,12 +112,12 @@ class DisjointUnion(list):
 
         length = len(iterable)
         single_item = length == 1
-        many_items = length > 1
+        #many_items = length > 1
 
         if single_item:
             self.append(iterable)
 
-        elif many_items:
+        elif length > 1:
             initial = iterable.pop()
 
             for item in iterable:
