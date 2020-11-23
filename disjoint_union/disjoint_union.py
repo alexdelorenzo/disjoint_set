@@ -18,26 +18,26 @@ class DisjointUnion(list):
     def __contains__(self, key: Hashable) -> bool:
         return self.find(key) is not None
 
-    def __or__(self, other: Iterable) -> 'DisjointUnion':
+    def __or__(self, other: Iterable[Hashable]) -> 'DisjointUnion':
         if isinstance(other, type(self)):
             return add_unions(self, other)
         
         return add_items(self, other)
 
-    def __ror__(self, other: Iterable) -> 'DisjointUnion':
+    def __ror__(self, other: Iterable[Hashable]) -> 'DisjointUnion':
         return self.__or__(other)
 
-    def __ior__(self, other: Iterable) -> 'DisjointUnion':
-        return self.unions(other)
+    def __ior__(self, other: Iterable[Hashable]):
+        self.unions(other)
 
-    def __add__(self, other: Iterable) -> 'DisjointUnion':
+    def __add__(self, other: Iterable[Hashable]) -> 'DisjointUnion':
         return self.__or__(other)
 
-    def __radd__(self, other: Iterable) -> 'DisjointUnion':
+    def __radd__(self, other: Iterable[Hashable]) -> 'DisjointUnion':
         return self.__add__(other)
 
-    def __iadd__(self, other: Iterable) -> 'DisjointUnion':
-        return self.__ior__(other)
+    def __iadd__(self, other: Iterable[Hashable]):
+        self.__ior__(other)
 
     def _is_hashable(self, item: Any) -> bool:
         return isinstance(item, Hashable)
