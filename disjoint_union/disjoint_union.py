@@ -21,8 +21,8 @@ class DisjointUnion(list):
     def __or__(self, other: Iterable[Hashable]) -> 'DisjointUnion':
       return self.combine_new(other)
 
-    def __ror__(self, other: Iterable[Hashable]) -> 'DisjointUnion':
-      return self.__or__(other)
+    #def __ror__(self, other: Iterable[Hashable]) -> 'DisjointUnion':
+      #return self.__or__(other)
 
     def __ior__(self, other: Iterable[Hashable]) -> 'DisjointUnion':
       if isinstance(other, type(self)):
@@ -34,8 +34,8 @@ class DisjointUnion(list):
     def __add__(self, other: Iterable[Hashable]) -> 'DisjointUnion':
       return self.__or__(other)
 
-    def __radd__(self, other: Iterable[Hashable]) -> 'DisjointUnion':
-      return self.__add__(other)
+    #def __radd__(self, other: Iterable[Hashable]) -> 'DisjointUnion':
+      #return self.__add__(other)
 
     def __iadd__(self, other: Iterable[Hashable]) -> 'DisjointUnion':
       return self.__ior__(other)
