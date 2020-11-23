@@ -6,7 +6,7 @@ Iterables = Union[Iterable, Sequence]
 
 
 class DisjointUnion(list):
-    def __init__(self, initial: Optional[Iterable] = None):
+    def __init__(self, initial: Optional[Iterable[Hashable]] = None):
         super().__init__()
 
         if initial is None:
@@ -19,13 +19,16 @@ class DisjointUnion(list):
         return self.find(key) is not None
 
     def __or__(self, other: Iterable) -> 'DisjointUnion':
-        return self.unions(other)
+        if isinstance(other, type(self)):
+            return add_unions(self, other)
+        
+        return add_items(self, other)
 
     def __ror__(self, other: Iterable) -> 'DisjointUnion':
         return self.__or__(other)
 
     def __ior__(self, other: Iterable) -> 'DisjointUnion':
-        return self.__or__(other)
+        return self.unions(other)
 
     def __add__(self, other: Iterable) -> 'DisjointUnion':
         return self.__or__(other)
@@ -34,7 +37,7 @@ class DisjointUnion(list):
         return self.__add__(other)
 
     def __iadd__(self, other: Iterable) -> 'DisjointUnion':
-        return self.__add__(other)
+        return self.__ior__(other)
 
     def _is_hashable(self, item: Any) -> bool:
         return isinstance(item, Hashable)
@@ -42,6 +45,14 @@ class DisjointUnion(list):
     def _is_iter(self, item: Hashable) -> bool:
         iters = Iterables.__args__
         return isinstance(item, iters)
+   
+    def copy(self) -> 'DisjointUnion':
+        new = DisjointUnion()
+    
+        for pool in self:
+            new |= pool
+        
+        return new
 
     def find(self, item: Hashable) -> Optional[int]:
         for index, pool in enumerate(self):
@@ -135,3 +146,19 @@ class DisjointUnion(list):
             many_items = many_items[0]
 
         return self.union_iterable(many_items)
+
+
+def add_unions(d1: DisjointUnion, d2: DisjointUnion) -> DisjointUnion:
+    new = d1.copy()
+    
+    for pool in d2:
+        new |= pool
+    
+    return new
+
+
+def add_items(d1: DistjoinUnion, *items: Iterable[Hashable]) -> DisjointUnion:
+    new = d1.copy()
+    new |= items
+    
+    return new
