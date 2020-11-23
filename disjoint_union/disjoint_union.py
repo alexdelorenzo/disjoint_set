@@ -157,7 +157,7 @@ def add_unions(d1: DisjointUnion, d2: DisjointUnion) -> DisjointUnion:
     return new
 
 
-def add_items(d1: DistjoinUnion, *items: Iterable[Hashable]) -> DisjointUnion:
+def add_items(d1: DisjoinUnion, *items: Iterable[Hashable]) -> DisjointUnion:
     new = d1.copy()
     new |= items
     
