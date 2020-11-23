@@ -2,6 +2,9 @@ from typing import Optional, Union, Any, List, Hashable, Set
 from collections import Iterable, Sequence
 
 
+FIRST_ITEM: int = 1
+
+
 Iterables = Union[Iterable, Sequence]
 
 
@@ -159,7 +162,7 @@ class DisjointUnion(list):
         single_item = len(many_items) == 1
 
         if single_item:
-            many_items = many_items[0]
+            many_items = many_items[FIRST_ITEM]
 
         return self.union_iterable(many_items)
 
