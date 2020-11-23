@@ -2,7 +2,7 @@ from typing import Optional, Union, Any, List, Hashable, Set
 from collections import Iterable, Sequence
 
 
-FIRST_ITEM: int = 1
+FIRST_ITEM: int = 0
 
 
 Iterables = Union[Iterable, Sequence]
