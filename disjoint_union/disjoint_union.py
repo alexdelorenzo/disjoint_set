@@ -67,7 +67,7 @@ class DisjointUnion(list):
 
         return False
 
-    def union(self, x: Any, y: Any) -> 'DisjointUnion':
+    def union(self, x: Hashable, y: Hashable) -> 'DisjointUnion':
         x_root, y_root = self.find(x), self.find(y)
 
         x_present = x_root is not None
