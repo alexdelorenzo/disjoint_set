@@ -1,13 +1,14 @@
+# Copyright 2013 - 2020 Alex DeLorenzo
 __author__ = "Alex DeLorenzo"
 from setuptools import setup
 from pathlib import Path
 
 
 NAME = "disjoint_union"
-VERSION = "0.2.0"
+VERSION = "0.3.0"
 LICENSE = "AGPL-3.0"
 
-DESC = "Disjoint set / union find"
+DESC = "Disjoint set / union find algorithm"
 
 REQUIREMENTS = \
   Path('requirements.txt') \
@@ -22,7 +23,7 @@ setup(
       description=DESC,
       long_description=README,
       long_description_content_type="text/markdown",
-      url="https://alexdelorenzo.dev",
+      url="https://github.com/alexdelorenzo/disjoint_set",
       author=__author__,
       license=LICENSE,
       packages=[NAME],
