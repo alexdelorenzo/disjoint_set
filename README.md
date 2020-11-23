@@ -13,7 +13,7 @@ python3 -m pip install disjoint_union
 # Usage
 `DisjointUnion` is a subclass of `list` and can be instantiated by passing it an iterable. 
 
-You can use the `|` and `+` operators on a `DisjointUnion` to create a new `DisjointUnion`, or you can mutate the original union using `|=`, `+=`, or `union(x, y)` and `unions(*iterable)` methods. 
+You can use the `|` and `+` operators on a `DisjointUnion` to create a new `DisjointUnion`, or you can mutate the original union using the `|=` and `+=` assignment operators, or the `union(x, y)` and `unions(*iterable)` methods. 
 
 ```python3
 In [1]: from disjoint_union import DisjointUnion
