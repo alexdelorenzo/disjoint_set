@@ -1,8 +1,6 @@
-from typing import Optional, Union, Any, List, Hashable, Set
+from typing import Optional, Union, Any, Hashable, \
+  Set, Tuple
 from collections import Iterable, Sequence
-
-
-FIRST_ITEM: int = 0
 
 
 Iterables = Union[Iterable, Sequence]
@@ -158,11 +156,11 @@ class DisjointUnion(list):
 
     return self
 
-  def unions(self, *many_items: List[Hashable]) -> 'DisjointUnion':
+  def unions(self, *many_items: Tuple[Hashable]) -> 'DisjointUnion':
     single_item = len(many_items) == 1
 
     if single_item:
-      many_items = many_items[FIRST_ITEM]
+      [many_items] = many_items
 
     return self.union_iterable(many_items)
 
