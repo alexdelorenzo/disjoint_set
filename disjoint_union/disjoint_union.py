@@ -1,3 +1,4 @@
+from __future__ import annotations
 from typing import Optional, Union, Any, Hashable, \
   Set, Tuple
 from collections import Iterable, Sequence
@@ -19,26 +20,26 @@ class DisjointUnion(list):
   def __contains__(self, key: Hashable) -> bool:
     return self.find(key) is not None
 
-  def __or__(self, other: Iterable[Hashable]) -> 'DisjointUnion':
+  def __or__(self, other: Iterable[Hashable]) -> DisjointUnion:
     return self.combine_new(other)
 
   #def __ror__(self, other: Iterable[Hashable]) -> 'DisjointUnion':
     #return self.__or__(other)
 
-  def __ior__(self, other: Iterable[Hashable]) -> 'DisjointUnion':
+  def __ior__(self, other: Iterable[Hashable]) -> DisjointUnion:
     if isinstance(other, type(self)):
       self.combine(other)
       return self
 
     return self.unions(other)
 
-  def __add__(self, other: Iterable[Hashable]) -> 'DisjointUnion':
+  def __add__(self, other: Iterable[Hashable]) -> DisjointUnion:
     return self.__or__(other)
 
   #def __radd__(self, other: Iterable[Hashable]) -> 'DisjointUnion':
     #return self.__add__(other)
 
-  def __iadd__(self, other: Iterable[Hashable]) -> 'DisjointUnion':
+  def __iadd__(self, other: Iterable[Hashable]) -> DisjointUnion:
     return self.__ior__(other)
 
   def _is_hashable(self, item: Any) -> bool:
@@ -48,17 +49,17 @@ class DisjointUnion(list):
     iters = Iterables.__args__
     return isinstance(item, iters)
 
-  def combine(self, other: 'DisjointUnion'):
+  def combine(self, other: DisjointUnion):
     for pool in other:
       self |= pool
 
-  def combine_new(self, other: 'DisjointUnion') -> 'DisjointUnion':
+  def combine_new(self, other: DisjointUnion) -> DisjointUnion:
     if isinstance(other, type(self)):
       return add_unions(self, other)
 
     return add_items(self, other)
 
-  def copy(self) -> 'DisjointUnion':
+  def copy(self) -> DisjointUnion:
     new = DisjointUnion()
 
     for pool in self:
@@ -95,7 +96,7 @@ class DisjointUnion(list):
 
     return False
 
-  def union(self, x: Hashable, y: Hashable) -> 'DisjointUnion':
+  def union(self, x: Hashable, y: Hashable) -> DisjointUnion:
     x_root, y_root = self.find(x), self.find(y)
 
     x_present = x_root is not None
@@ -128,7 +129,7 @@ class DisjointUnion(list):
 
     return self
 
-  def union_iterable(self, items: Iterable) -> 'DisjointUnion':
+  def union_iterable(self, items: Iterable) -> DisjointUnion:
     if isinstance(items, str):
       return self.union(items, items)
 
@@ -156,7 +157,7 @@ class DisjointUnion(list):
 
     return self
 
-  def unions(self, *many_items: Tuple[Hashable]) -> 'DisjointUnion':
+  def unions(self, *many_items: Tuple[Hashable]) -> DisjointUnion:
     single_item = len(many_items) == 1
 
     if single_item:
