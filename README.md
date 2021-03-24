@@ -1,6 +1,6 @@
 # Disjoint Union
 
-Implementation of the union find algorithm. This library will work with any hashable objects.
+Implementation of the union find algorithm. This library will work with all hashable objects.
 
 # Installation
 
