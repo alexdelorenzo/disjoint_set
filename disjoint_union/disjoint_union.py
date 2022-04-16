@@ -1,7 +1,7 @@
 from __future__ import annotations
 from typing import Optional, Union, Any, Hashable, \
   Set, Tuple
-from collections import Iterable, Sequence
+from collections.abc import Iterable, Sequence
 
 
 Iterables = Union[Iterable, Sequence]
