@@ -84,7 +84,7 @@ class DisjointUnion(list[Item]):
 
   def remove(self, item: Item) -> bool:
     if pool := self.get_set(item):
-        return False
+      return False
 
     pool.remove(item)
 
