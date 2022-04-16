@@ -1,14 +1,16 @@
 from __future__ import annotations
-from typing import Optional, Union, Any, Hashable, \
-  Set, Tuple
+from typing import Any, Hashable
 from collections.abc import Iterable, Sequence
 
 
-Iterables = Union[Iterable, Sequence]
+Item = Hashable
+Items = Iterable[Item]
+ItemSet = set[Item]
+Iterables = Iterable | Sequence  # don't subscript, used with isinstance()
 
 
-class DisjointUnion(list):
-  def __init__(self, initial: Optional[Iterable[Hashable]] = None):
+class DisjointUnion(list[Item]):
+  def __init__(self, initial: Items | None = None):
     super().__init__()
 
     if initial is None:
@@ -17,35 +19,35 @@ class DisjointUnion(list):
     else:
       self |= initial
 
-  def __contains__(self, key: Hashable) -> bool:
+  def __contains__(self, key: Item) -> bool:
     return self.find(key) is not None
 
-  def __or__(self, other: Iterable[Hashable]) -> DisjointUnion:
+  def __or__(self, other: Items) -> DisjointUnion:
     return self.combine_new(other)
 
   #def __ror__(self, other: Iterable[Hashable]) -> 'DisjointUnion':
     #return self.__or__(other)
 
-  def __ior__(self, other: Iterable[Hashable]) -> DisjointUnion:
+  def __ior__(self, other: Items) -> DisjointUnion:
     if isinstance(other, type(self)):
       self.combine(other)
       return self
 
     return self.unions(other)
 
-  def __add__(self, other: Iterable[Hashable]) -> DisjointUnion:
+  def __add__(self, other: Items) -> DisjointUnion:
     return self.__or__(other)
 
   #def __radd__(self, other: Iterable[Hashable]) -> 'DisjointUnion':
     #return self.__add__(other)
 
-  def __iadd__(self, other: Iterable[Hashable]) -> DisjointUnion:
+  def __iadd__(self, other: Item) -> DisjointUnion:
     return self.__ior__(other)
 
-  def _is_hashable(self, item: Any) -> bool:
+  def _is_hashable(self, item: Item | Any) -> bool:
     return isinstance(item, Hashable)
 
-  def _is_iter(self, item: Hashable) -> bool:
+  def _is_iter(self, item: Item) -> bool:
     iters = Iterables.__args__
     return isinstance(item, iters)
 
@@ -67,36 +69,32 @@ class DisjointUnion(list):
 
     return new
 
-  def find(self, item: Hashable) -> Optional[int]:
+  def find(self, item: Item) -> int | None:
     for index, pool in enumerate(self):
       if item in pool:
         return index
 
     return None  # be explicit
 
-  def get_set(self, item: Hashable) -> Optional[Set]:
-    index = self.find(item)
-
-    if index is not None:
+  def get_set(self, item: Item) -> ItemSet | None:
+    if index := self.find(item) is not None:
       return self[index]
 
     return None  # be explicit
 
-  def remove(self, item: Hashable) -> bool:
-    pool = self.get_set(item)
+  def remove(self, item: Item) -> bool:
+    if pool := self.get_set(item):
+        return False
 
-    if pool is not None:
-      pool.remove(item)
+    pool.remove(item)
 
-      if not pool:
-        index = self.index(pool)
-        self.pop(index)
+    if not pool:
+      index = self.index(pool)
+      self.pop(index)
 
-      return True
+    return True
 
-    return False
-
-  def union(self, x: Hashable, y: Hashable) -> DisjointUnion:
+  def union(self, x: Item, y: Item) -> DisjointUnion:
     x_root, y_root = self.find(x), self.find(y)
 
     x_present = x_root is not None
@@ -129,7 +127,7 @@ class DisjointUnion(list):
 
     return self
 
-  def union_iterable(self, items: Iterable) -> DisjointUnion:
+  def union_iterable(self, items: Items | Iterable) -> DisjointUnion:
     if isinstance(items, str):
       return self.union(items, items)
 
@@ -147,7 +145,7 @@ class DisjointUnion(list):
     # many_items = length > 1
 
     if single_item:
-        self.append(items)
+      self.append(items)
 
     elif length > 1:
       initial = items.pop()
@@ -157,7 +155,7 @@ class DisjointUnion(list):
 
     return self
 
-  def unions(self, *many_items: Tuple[Hashable]) -> DisjointUnion:
+  def unions(self, *many_items: tuple[Hashable]) -> DisjointUnion:
     single_item = len(many_items) == 1
 
     if single_item:
@@ -175,7 +173,7 @@ def add_unions(d1: DisjointUnion, d2: DisjointUnion) -> DisjointUnion:
   return new
 
 
-def add_items(union: DisjointUnion, items: Iterable[Hashable]) -> DisjointUnion:
+def add_items(union: DisjointUnion, items: Items) -> DisjointUnion:
   new = union.copy()
   new |= items
 

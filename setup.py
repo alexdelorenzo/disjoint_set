@@ -5,7 +5,7 @@ from pathlib import Path
 
 
 NAME = "disjoint_union"
-VERSION = "0.4.4"
+VERSION = "0.5.0"
 LICENSE = "AGPL-3.0"
 
 DESC = "Disjoint set / union find algorithm"
@@ -29,6 +29,6 @@ setup(
   packages=[NAME],
   zip_safe=False,
   install_requires=REQUIREMENTS,
-  python_requires='>=3.6',
+  python_requires='>=3.10',
   include_package_data=True,
 )
