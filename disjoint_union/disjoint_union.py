@@ -9,7 +9,7 @@ ItemSet = set[Item]
 Iterables = Iterable | Sequence  # don't subscript, used with isinstance()
 
 
-class DisjointUnion(list[Item]):
+class DisjointUnion(list[ItemSet]):
   def __init__(self, initial: Items | None = None):
     super().__init__()
 
